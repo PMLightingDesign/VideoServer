@@ -8,5 +8,17 @@ a {
 }
 
 .card-wrapper{
-  margin-bottom: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.btn-trans{
+  border: none;
+  background: none;
+}
+
+.img-mini-btn{
+  width: 24px;
+  height: 24px;
+  margin: 5px;
 }

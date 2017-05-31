@@ -7,7 +7,9 @@
       <p>No Thumbnail</p>
     </div>
     <footer class="w3-container w3-light-gray">
-      <button style="border: none; background: none;" id="{{this.name}}{{this.ext}}" onclick="playVideo(this.id);"><img src="/img/play.png" style="width: 24px; height: 24px; margin: 5px;"></button>
+      <button class="btn-trans" id="{{this.name}}{{this.ext}}" onclick="playVideo(this.id);">
+        <img src="/img/play.png" class="img-mini-btn">
+      </button>
       <span class="label label-default">{{this.ext}}</span>
     </footer>
   </div>

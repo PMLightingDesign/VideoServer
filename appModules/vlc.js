@@ -1,4 +1,5 @@
 const cp = require('child_process');
+const globals = require('./globals.js');
 
 function vlcPlayFile(filename, respHook){
   let msg = "";
@@ -44,6 +45,27 @@ function parse(data){
   return msg;
 }
 
+function makeThumbnails(files){
+  for(let i = 0; i < files.length; i++){
+    // /ffmpeg -i $uploaded_file -ss 00:00:01.000 -vframes 1 output.png
+    let currentFile = globals.video + '/' + files[i].base;
+    let outputImage = globals.thumbs + '/' + files[i].name + '.png';
+    files[i].proc = cp.spawn('ffmpeg', ['-i', currentFile, '-ss', '00:00:03.000', '-vframes', '1', outputImage]);
+    files[i].proc.stdout.on('data', function(data){
+      console.log('stdout: ' + data);
+    });
+
+    files[i].proc.stderr.on('data', function(data){
+      console.log('stdout: ' + data);
+    });
+
+    files[i].proc.on('close', function(code){
+      console.log('stdout: ' + code);
+    });
+  }
+}
+
 
 
 module.exports.vlcPlayFile = vlcPlayFile;
+module.exports.makeThumbnails = makeThumbnails;

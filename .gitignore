@@ -4,6 +4,7 @@ mpv
 # Video and Audio Files
 video
 audio
+public/img/thumbs
 
 # mac
 .DS_STORE

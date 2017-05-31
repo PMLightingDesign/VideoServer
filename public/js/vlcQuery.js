@@ -1,38 +1,40 @@
+const dummyData = {
+  width: 0,
+  time: '0:00',
+  pos: 0,
+  end: 100,
+  file: "Nothing Playing"
+}
+
 $(document).ready(function() {
+    var playerTemplate;
+    $.ajax('/templates/player.hbs').done(function(temp){
+      playerTemplate = Handlebars.compile(temp);
+    });
     setInterval(function(){
-      console.log('Calling play with ' + name);
       var xhr = new XMLHttpRequest();
       xhr.open('POST', '/api/vlc/info' + name, true);
       xhr.onload = function () {
-          // do something to response
-          console.log(this.responseText);
           let playInfo = JSON.parse(this.responseText);
           if (playInfo.type == 'playbackInfo'){
-            $('#player-info').html(renderPlayer(playInfo));
+            playInfo.width = Math.round((playInfo.pos / playInfo.end) * 100);
+            playInfo.prettyTime = ft(playInfo.pos) + " / " + ft(playInfo.end);
+            playInfo.idName = playInfo.file.split('.')[0];
+            console.log(playInfo.idName);
+            let html_data = playerTemplate({
+              info: playInfo
+            });
+            $('#player-info').html(html_data);
           } else {
-            $('#player-info').html("<h6>Nothing Playing</h6>");
+            let html_data = playerTemplate({
+              info: dummyData
+            });
+            $('#player-info').html(html_data);
           }
       };
       xhr.send();
     }, 1000);
 });
-
-function renderPlayer(playInfo){
-  let html = "";
-  html += '<h6>' + playInfo.file + '</h6>';
-  html += '<div class="progress">';
-  html += '<div class="progress-bar" role="progressbar" aria-valuenow="'
-  html += playInfo.pos;
-  html += '" aria-valuemin="0" aria-valuemax="'
-  html += playInfo.end;
-  html += '" style="width:'
-  html += Math.round((playInfo.pos / playInfo.end) * 100);
-  html += '%">';
-  html += '</div>'
-  html += '</div>'
-  html += '<h6>' + ft(playInfo.pos) + " / " + ft(playInfo.end) + '<h6>';
-  return html;
-}
 
 function ft(time)
 {

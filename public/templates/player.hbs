@@ -1,0 +1,14 @@
+<h6>{{info.file}}</h6>
+<div class="progress">
+  <div class="progress-bar"
+  role="progressbar"
+  aria-valuenow="{{info.pos}}"
+  aria-valuemin="0"
+  aria-valuemax="{{info.end}}"
+  style="width:{{info.width}}%">
+  </div>
+</div>
+<h6>{{info.prettyTime}}</h6>
+<button type="button" class="btn btn-success" onclick="sendCommand('play')">PLAY</button>
+<button type="button" class="btn btn-warning" onclick="sendCommand('pause')">PAUSE</button>
+<button type="button" class="btn btn-danger" onclick="sendCommand('stop')">STOP</button>
