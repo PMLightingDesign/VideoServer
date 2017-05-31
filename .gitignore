@@ -1,6 +1,10 @@
 # MPV Application
 mpv
 
+# Video and Audio Files
+video
+audio
+
 # mac
 .DS_STORE
 
