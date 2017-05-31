@@ -1,0 +1,14 @@
+<div class="col-sm-3 card-wrapper">
+  <div class="w3-card">
+    <header class="w3-container w3-light-gray">
+      <p>{{this.name}}</p>
+    </header>
+    <div class="w3-container">
+      <p>No Thumbnail</p>
+    </div>
+    <footer class="w3-container w3-light-gray">
+      <button style="border: none; background: none;" id="{{this.name}}{{this.ext}}" onclick="playVideo(this.id);"><img src="/img/play.png" style="width: 24px; height: 24px; margin: 5px;"></button>
+      <span class="label label-default">{{this.ext}}</span>
+    </footer>
+  </div>
+</div>

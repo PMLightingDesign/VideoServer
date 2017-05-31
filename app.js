@@ -5,9 +5,13 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
-let video = require('./routes/video');
 
+//Setup app and routers
 let app = express();
+
+let video = require('./routes/video');
+let audio = require('./routes/audio');
+let api = require('./routes/api');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,9 +28,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', video);
+//Default redirect to video
+app.all('/', function(req, res, next){
+  res.redirect('/video');
+
+});
+
+//Routes to main pages
 app.use('/video', video);
-//app.use('/users', users);
+app.use('/audio', audio);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

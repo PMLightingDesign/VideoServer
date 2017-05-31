@@ -1,2 +1,28 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h2>{{title}}</h2>
+<br>
+<div class="panel panel-default">
+  <div class="panel-heading w3-light-gray">Playback</div>
+  <div class="panel-body" id="player-info">
+    <p>Nothing Playing
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading w3-light-gray">All Videos</div>
+  <div class="panel-body">
+    <div class="row">
+      {{#each data}}
+        {{>vtile this}}
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading w3-light-gray">Playlists</div>
+  <div class="panel-body">
+    <p>No Playlist
+  </div>
+</div>
+
+<script src="/js/vlcQuery.js"></script>
