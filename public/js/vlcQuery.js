@@ -26,7 +26,7 @@ $(document).ready(function() {
           playInfo.width = Math.round((playInfo.pos / playInfo.end) * 100);
           playInfo.prettyTime = ft(playInfo.pos) + " / " + ft(playInfo.end);
           playInfo.idName = playInfo.file.split('.')[0];
-          console.log(playInfo.idName);
+          console.log(playInfo.file);
           let html_data = playerTemplate({
             info: playInfo
           });

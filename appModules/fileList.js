@@ -11,7 +11,12 @@ class FileList {
     let fileNames = fs.readdirSync(dir);
     this.files = [];
     for (let i = 0; i < fileNames.length; i++){
-      this.files.push(path.parse(fileNames[i]));
+      let thisFile = path.parse(fileNames[i]);
+      if(thisFile.ext != '.m3u'){
+        this.files.push(thisFile);
+      } else {
+        console.log("FS: Ignoring Playlist");
+      }
     }
   }
 

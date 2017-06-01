@@ -9,6 +9,18 @@ function playVideo(name){
   xhr.send();
 }
 
+function playAudio(name){
+  console.log(name + ' will play now');
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/playSound/' + name, true);
+  xhr.onload = function () {
+      // do something to response
+      console.log(this.responseText);
+  };
+  xhr.send();
+}
+
+
 function sendCommand(action){
   console.log("Action: " + action);
   var xhr = new XMLHttpRequest();
@@ -35,6 +47,26 @@ function setPresetVideo(name){
 function setLoopState(object){
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/api/loop/' + object.checked, true);
+  xhr.onload = function () {
+      // do something to response
+      console.log(this.responseText);
+  };
+  xhr.send();
+}
+
+function reloadThumbs(){
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/reloadThumbs', true);
+  xhr.onload = function () {
+      // do something to response
+      console.log(this.responseText);
+  };
+  xhr.send();
+}
+
+function playAll(){
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/playAudioPlaylist', true);
   xhr.onload = function () {
       // do something to response
       console.log(this.responseText);

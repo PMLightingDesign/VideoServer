@@ -16,7 +16,9 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading w3-light-gray">All Videos</div>
+  <div class="panel-heading w3-light-gray">All Videos
+    <button type="button" class="btn btn-xs btn-primary pull-right" onclick="reloadThumbs();">Reload Thumbnails</button>
+  </div>
   <div class="panel-body">
     <div class="row">
       {{#each data}}

@@ -5,6 +5,7 @@ const FileList = require('../appModules/fileList.js').FileList;
 let globals = require('../appModules/globals.js');
 const vlcPlayFile = require('../appModules/vlc.js').vlcPlayFile;
 const makeThumbnails = require('../appModules/vlc.js').makeThumbnails;
+const fs = require('fs');
 
 let child;
 let last;
@@ -21,12 +22,43 @@ function getFilelist(){
   return fl.files;
 }
 
+function getAudioList(){
+  let fl = new FileList(globals.audio);
+  for(let i = 0 ;i < fl.files.length; i++){
+    if(fl.files[i].base == presetMovie){
+      fl.files[i].isDefault = true;
+    }
+  }
+  createPlaylist(fl.files);
+  return fl.files;
+}
+
+function createPlaylist(files){
+  let fileString = "";
+  for(let i = 0; i < files.length; i++){
+    fileString += globals.audio + '/' + files[i].base + '\n';
+  }
+  let configPath = globals.audio + '/' + 'playlist.m3u';
+  fs.writeFile(configPath, fileString, function(err){
+    if(err){
+      console.log('err');
+    }
+  });
+}
+
 function generateThumbs(){
   let files = getFilelist();
   makeThumbnails(files);
 }
 
 generateThumbs();
+
+router.use('/reloadThumbs', function(req, res, next){
+  generateThumbs();
+  res.json({
+    status: "Okay"
+  });
+});
 
 /* GET home page. */
 router.get('/vidList', function(req, res, next) {
@@ -94,5 +126,24 @@ router.use('/loop/:state', function(req, res, next){
   });
 });
 
+//Audio
+
+router.use('/playSound/:audio', function(req, res, next) {
+  if(typeof(vlc) != 'undefined'){
+    vlc.kill('SIGINT');
+  }
+  vlc = vlcPlayFile(globals.audio + '/' + req.params.audio, looping);
+  res.send("Okay: " + req.params.audio);
+});
+
+router.use('/playAudioPlaylist', function(req, res, next) {
+  if(typeof(vlc) != 'undefined'){
+    vlc.kill('SIGINT');
+  }
+  vlc = vlcPlayFile(globals.audio + '/playlist.m3u', looping);
+  res.send("Okay: " + req.params.audio);
+});
+
 module.exports = router;
 module.exports.getFilelist = getFilelist;
+module.exports.getAudioList = getAudioList;
