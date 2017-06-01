@@ -1,16 +1,16 @@
 <div class="col-sm-3 card-wrapper">
   <div class="w3-card">
     <header class="w3-container w3-light-gray">
-      <p>{{this.name}}</p>
+      <p>{{this.name}} <span class="label label-default pull-right ext-tag">{{this.ext}}</span></p>
     </header>
     <div class="w3-container">
-      <p>No Thumbnail</p>
+      <img src="/img/thumbs/{{this.name}}.png" style="width:100%;">
     </div>
     <footer class="w3-container w3-light-gray">
       <button class="btn-trans" id="{{this.name}}{{this.ext}}" onclick="playVideo(this.id);">
         <img src="/img/play.png" class="img-mini-btn">
       </button>
-      <span class="label label-default">{{this.ext}}</span>
+      <button name="{{this.name}}{{this.ext}}" type="button" class="btn btn-xs btn-primary pull-right btn-preset" onclick="setPresetVideo(this.name);">Make Preset</button>
     </footer>
   </div>
 </div>

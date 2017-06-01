@@ -9,6 +9,7 @@ const makeThumbnails = require('../appModules/vlc.js').makeThumbnails;
 let child;
 let last;
 let presetMovie = "4_products_quotes_031816.mov";
+let looping = false;
 
 function getFilelist(){
   let fl = new FileList(globals.video);
@@ -34,20 +35,30 @@ router.get('/vidList', function(req, res, next) {
   res.send(JSON.stringify(files));
 });
 
+router.use('/play/default', function(req, res, next) {
+  if(typeof(vlc) != 'undefined'){
+    vlc.kill('SIGINT');
+  }
+  vlc = vlcPlayFile(globals.video + '/' + presetMovie, looping);
+  res.send("Okay: " + req.params.video);
+});
+
 router.use('/play/:video', function(req, res, next) {
   if(typeof(vlc) != 'undefined'){
     vlc.kill('SIGINT');
   }
-  vlc = vlcPlayFile(globals.video + '/' + req.params.video, last);
+  vlc = vlcPlayFile(globals.video + '/' + req.params.video, looping);
   res.send("Okay: " + req.params.video);
 });
 
 router.use('/vlc/info', function(req, res, next){
   if(typeof(vlc) != 'undefined'){
     vlc.stdin.write("get_time\nget_length\nget_title\n");
-    res.json(vlc.vsDataHook);
+    let resp = vlc.vsDataHook;
+    resp.loopStatus = looping;
+    res.json(resp);
   } else {
-    res.json({type: "none"});
+    res.json({type: "none", loopStatus: looping});
   }
 });
 
@@ -67,6 +78,20 @@ router.use('/vlc/command/:action', function(req, res, next){
   } else {
     res.json({type: "none"});
   }
+});
+
+router.use('/preset/:video', function(req, res, next){
+  presetMovie = req.params.video;
+  res.json({status: "Okay"});
+});
+
+router.use('/loop/:state', function(req, res, next){
+  console.log(req.params.state);
+  looping = req.params.state;
+  res.json({
+    status: "Setting loop to",
+    state: req.params.state
+  });
 });
 
 module.exports = router;

@@ -1,14 +1,20 @@
 const cp = require('child_process');
 const globals = require('./globals.js');
 
-function vlcPlayFile(filename, respHook){
+function vlcPlayFile(filename, loop){
   let msg = "";
 
-  vlc = cp.spawn('cvlc', ['-f', '--intf', 'rc', filename]);
+  if(loop == true || loop == "true"){
+    console.log("Entering Loop Mode")
+    vlc = cp.spawn('cvlc', ['-f', '--intf', 'rc', '--no-video-title-show', "--loop", filename]);
+  } else {
+    console.log("Entering Normal Mode")
+    vlc = cp.spawn('cvlc', ['-f', '--intf', 'rc', '--no-video-title-show', filename]);
+  }
 
   vlc.stdout.on('data', function(data){
     vlc.vsDataHook = parse(data);
-    console.log('stdout: ' + data);
+    //console.log('stdout: ' + data);
   });
 
   vlc.stderr.on('data', function(data){
@@ -16,7 +22,7 @@ function vlcPlayFile(filename, respHook){
   });
 
   vlc.on('close', function(code){
-    console.log('stdout: ' + code);
+    //console.log('stdout: ' + code);
   });
 
   return vlc;
@@ -32,7 +38,7 @@ function generic(payload){
 function parse(data){
   let msg = data.toString().split('\r\n');
   if(!isNaN(parseInt(msg[0]))){
-  console.log(parseInt(msg[0]));
+  //console.log(parseInt(msg[0]));
     msg = {
       pos: msg[0],
       end: msg[1],

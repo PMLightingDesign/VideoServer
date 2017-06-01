@@ -5,6 +5,14 @@
   <div class="panel-body" id="player-info">
     <p>Nothing Playing
   </div>
+  <div class="loop-toggle">
+    <p>Loop</p>
+  {{#if loop}}
+    <input onchange = "setLoopState(this)" type="checkbox" name="loop-check" checked>
+  {{else}}
+    <input onchange = "setLoopState(this)" type="checkbox" name="loop-check">
+  {{/if}}
+  </div>
 </div>
 
 <div class="panel panel-default">
