@@ -23,12 +23,19 @@ let globals = require('./appModules/globals.js');
 let saveGlobals = require('./appModules/fileOps.js').saveGlobals;
 let loadGlobals = require('./appModules/fileOps.js').loadGlobals;
 const FileList = require('./appModules/fileList.js');
-
+const makeThumbs = require('./mpv/MPVThumbs.js');
 
 let tmpGlobals = loadGlobals(__dirname + '/config.json');
 for(key in tmpGlobals){
   globals[key] = tmpGlobals[key];
 }
+
+function mt(){
+  let fl = new FileList(globals.video);
+  makeThumbs(globals, fl.files);
+}
+
+mt();
 
 //saveGlobals(globals);
 console.log(globals);
