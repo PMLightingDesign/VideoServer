@@ -24,12 +24,31 @@ let mpv = new MPV({
   "--idle"
 ]);
 
-mpv.observeProperty("playback-time", 13);
+mpv.command("loadfile",["C:/Users/Public/Music/Sample Music/Kalimba.mp3"]);
 
-mpv.command("loadfile",["/home/saabstory88/VideoServer/audio/Black Vortex.mp3"]);
+let report = {};
+function reportInfo(data){
+  if(data.status){
+    for(key in data.status){
+      report[key] = data.status[key];
+    }
+  }
+  if(data.time){
+    report.time = data.time;
+  }
+  console.log(util.inspect(report));
+}
 
 mpv.on('statuschange', function(info){
-  console.log('GOT: ' + util.inspect(info));
+  reportInfo({
+    status: info
+  });
+});
+
+mpv.on('timeposition', function(info){
+  reportInfo({
+    time: info
+  });
 });
 
 setTimeout(function(){
