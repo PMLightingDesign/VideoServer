@@ -1,13 +1,43 @@
-let dummyData = {
-  width: 0,
-  time: '0:00',
-  pos: 0,
-  end: 100,
-  file: "Nothing Playing",
-  loopStatus: false
+let dummyData = { mute: false,
+  pause: false,
+  duration: 0,
+  volume: 100,
+  filename: 'none',
+  path: '/no/media',
+  'media-title': 'None',
+  'playlist-pos': 0,
+  'playlist-count': 0,
+  loop: false,
+  fullscreen: true,
+  'sub-visibility': true,
+  time: 0
+}
+
+function routeToApi(){
+  var loc = window.location, new_uri;
+  if (loc.protocol === "https:") {
+      new_uri = "wss:";
+  } else {
+      new_uri = "ws:";
+  }
+  new_uri += "//" + loc.host;
+  new_uri += loc.pathname + "/api";
+  return new_uri;
 }
 
 $(document).ready(function() {
+  let wsPath = routeToApi();
+  console.log(wsPath);
+  var apiSock = new WebSocket(wsPath);
+  apiSock.onopen = function (event) {
+    apiSock.send("Here's some text that the server is urgently awaiting!");
+  };
+  apiSock.onclose = function (event){
+    console.log('API Closed');
+  };
+  setInterval(function(){
+    apiSock.send("Data!");
+  }, 2000);
   var playerTemplate;
   $.ajax('/templates/player.hbs').done(function(temp){
     playerTemplate = Handlebars.compile(temp);
@@ -16,31 +46,6 @@ $(document).ready(function() {
     });
     $('#player-info').html(html_data);
     $("[name='loop-check']").bootstrapSwitch();
-
-    setInterval(function(){
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/vlc/info' + name, true);
-      xhr.onload = function () {
-        let playInfo = JSON.parse(this.responseText);
-        if (playInfo.type == 'playbackInfo'){
-          playInfo.width = Math.round((playInfo.pos / playInfo.end) * 100);
-          playInfo.prettyTime = ft(playInfo.pos) + " / " + ft(playInfo.end);
-          playInfo.idName = playInfo.file.split('.')[0];
-          console.log(playInfo.file);
-          let html_data = playerTemplate({
-            info: playInfo
-          });
-          $('#player-info').html(html_data);
-        } else {
-          dummyData.loopStatus = playInfo.loopStatus;
-          let html_data = playerTemplate({
-            info: dummyData
-          });
-          $('#player-info').html(html_data);
-        }
-      };
-      xhr.send();
-    }, 1000);
   });
 });
 

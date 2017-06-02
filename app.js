@@ -1,4 +1,3 @@
-const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -6,11 +5,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 
-//Setup app and routers
-let app = express();
+var express = require('express');
+var expressWs = require('express-ws')(express());
+var app = expressWs.app;
 
-let video = require('./routes/video');
-let audio = require('./routes/audio');
+//Setup app and routers
 let api = require('./routes/api');
 
 // view engine setup
@@ -31,13 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Default redirect to video
 app.all('/', function(req, res, next){
   res.redirect('/video');
-
 });
 
-//Routes to main pages
-app.use('/video', video);
-app.use('/audio', audio);
-app.use('/api', api);
+//Everything routes to api
+app.use('/', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
