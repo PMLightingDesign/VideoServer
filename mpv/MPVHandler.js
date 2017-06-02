@@ -2,8 +2,9 @@ const MPV = require('node-mpv');
 const util = require('util');
 const os = require('os');
 
-const linuxSock = "/tmp/node-mpv.sock"
-const winSock = "\\\\.\\pipe\\mpvsocket"
+const linuxSock = "/tmp/nodempv.sock";
+const winSock = "\\\\.\\pipe\\mpvsocket";
+
 let currentSock = "";
 
 if(os.type() == 'Windows_NT'){
@@ -12,11 +13,9 @@ if(os.type() == 'Windows_NT'){
   currentSock = linuxSock;
 }
 
-
-
 let mpv = new MPV({
     "verbose": false,
-    "debug": true,
+    "debug": false,
     "socket": currentSock,
     "audio_only": false,
     "time_update": 1
@@ -25,22 +24,9 @@ let mpv = new MPV({
   "--fullscreen"
 ]);
 
-//mpv.command("loadfile",["C:/Users/Public/Music/Sample Music/Kalimba.mp3"]);
-
-mpv.loadFile('https://soundcloud.com/testshotstarfish/sets/music-for-space-2', mode="replace");
+mpv.observeProperty('playlist', 13);
 
 let report = {};
-function reportInfo(data){
-  if(data.status){
-    for(key in data.status){
-      report[key] = data.status[key];
-    }
-  }
-  if(data.time){
-    report.time = data.time;
-  }
-  console.log(util.inspect(report));
-}
 
 mpv.on('statuschange', function(info){
   reportInfo({
@@ -53,3 +39,20 @@ mpv.on('timeposition', function(info){
     time: info
   });
 });
+
+process.on('message', (m) => {
+  console.log(m);
+  mpv.freeCommand(m);
+});
+
+function reportInfo(data){
+  if(data.status){
+    for(key in data.status){
+      report[key] = data.status[key];
+    }
+  }
+  if(data.time){
+    report.time = data.time;
+  }
+  process.send(report);
+}

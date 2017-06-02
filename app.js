@@ -1,3 +1,15 @@
+const express = require('express');
+const http = require('http');
+const url = require('url');
+const WebSocket = require('ws');
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({
+  server,
+  clientTracking: true
+ });
+
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -5,12 +17,25 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 
-var express = require('express');
-var expressWs = require('express-ws')(express());
-var app = expressWs.app;
+const cp = require('child_process');
+const util = require('util');
+let globals = require('./appModules/globals.js');
+const FileList = require('./appModules/fileList.js');
 
-//Setup app and routers
-let api = require('./routes/api');
+let lastMsg;
+
+let player = cp.fork('mpv/MPVHandler.js');
+player.on('message', function(msg){
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      let lastMsg = JSON.stringify(msg);
+      client.send(lastMsg);
+    }
+  });
+});
+
+//Define routes
+let api = require('./routes/api.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +58,25 @@ app.all('/', function(req, res, next){
 });
 
 //Everything routes to api
-app.use('/', api);
+app.use('/video', function(req, res, next){
+  let fl = new FileList(globals.video);
+  res.render('video', { title: 'Video Manager', data: fl.files});
+});
+
+app.use('/audio', function(req, res, next){
+  let fl = new FileList(globals.audio);
+  res.render('audio', { title: 'Audio Manager', data: fl.files, globals: globals});
+});
+
+app.use('/web', function(req, res, next){
+  res.render('web', { title: 'Web Manager'});
+});
+
+app.use('/playlist', function(req, res, next){
+  res.render('playlist', { title: 'Web Manager'});
+});
+
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,4 +96,24 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+wss.on('connection', function connection(ws, req) {
+  const location = url.parse(req.url, true);
+  // You might use location.query.access_token to authenticate or share sessions
+  // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+
+  ws.on('message', function incoming(message) {
+    player.send(message);
+  });
+
+  ws.send(lastMsg);
+});
+
+server.listen(8000, function listening() {
+  console.log('Listening on %d', server.address().port);
+});
+
+process.on('SIGINT', function(){
+  server.close();
+  player.kill();
+  process.exit(0);
+});

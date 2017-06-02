@@ -12,6 +12,8 @@ class FileList {
     this.files = [];
     for (let i = 0; i < fileNames.length; i++){
       let thisFile = path.parse(fileNames[i]);
+      thisFile.dir = dir;
+      thisFile.fullPath = path.join(dir + '/' + thisFile.base);
       if(thisFile.ext != '.m3u'){
         this.files.push(thisFile);
       } else {
@@ -42,4 +44,4 @@ class FileList {
   }
 }
 
-module.exports.FileList = FileList;
+module.exports = FileList;

@@ -7,7 +7,7 @@
       <img src="/img/thumbs/{{this.name}}.png" style="width:100%; margin-bottom:0px;">
     </div>
     <footer class="w3-container w3-light-gray">
-      <button class="btn-trans" id="{{this.name}}{{this.ext}}" onclick="playVideo(this.id);">
+      <button class="btn-trans" id="{{this.fullPath}}" onclick="playURL(this.id);">
         <img src="/img/play.png" class="img-mini-btn">
       </button>
       <button name="{{this.name}}{{this.ext}}" type="button" class="btn btn-xs btn-primary pull-right btn-preset" onclick="setPresetVideo(this.name);">Make Preset</button>

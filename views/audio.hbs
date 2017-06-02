@@ -1,24 +1,7 @@
-<div class='container-fluid' style='width:50%'>
-<h2>{{title}}</h2>
-<br>
-<div class="panel panel-default">
-  <div class="panel-heading w3-light-gray">Playback</div>
-  <div class="panel-body" id="player-info">
-    <p>Nothing Playing
-  </div>
-  <div class="loop-toggle">
-    <p>Loop</p>
-  {{#if loop}}
-    <input onchange = "setLoopState(this)" type="checkbox" name="loop-check" checked>
-  {{else}}
-    <input onchange = "setLoopState(this)" type="checkbox" name="loop-check">
-  {{/if}}
-  </div>
-</div>
 
 <div class="panel panel-default">
   <div class="panel-heading w3-light-gray">Audio Files
-    <button type="button" class="btn btn-xs btn-primary pull-right" onclick="playAll();">Play All</button>
+    <button type="button" class="btn btn-xs btn-primary pull-right" onclick="playURL('{{globals.audio}}');">Play All</button>
     <div class="panel-body">
       {{#each data}}
         {{>atile this}}
@@ -27,5 +10,3 @@
   </div>
 </div>
 </div>
-
-<script src="/js/vlcQuery.js"></script>

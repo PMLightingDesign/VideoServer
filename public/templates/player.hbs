@@ -1,4 +1,10 @@
-<h6>{{info.file}}</h6>
+<h6>
+  {{#if info.media-title}}
+  {{info.media-title}}
+  {{else}}
+  No Media
+  {{/if}}
+</h6>
 <div class="progress">
   <div class="progress-bar"
   role="progressbar"
@@ -9,6 +15,18 @@
   </div>
 </div>
 <h6>{{info.prettyTime}}</h6>
-<button type="button" class="btn btn-success" onclick="sendCommand('play')">PLAY</button>
-<button type="button" class="btn btn-warning" onclick="sendCommand('pause')">PAUSE</button>
-<button type="button" class="btn btn-danger" onclick="sendCommand('stop')">STOP</button>
+<button type="button" class="btn btn-sm btn-success" onclick="sendCommand({'command': ['set_property', 'pause', false]})">PLAY</button>
+<button type="button" class="btn btn-sm btn-warning" onclick="sendCommand({'command': ['set_property', 'pause', true]})">PAUSE</button>
+<button type="button" class="btn btn-sm btn-danger" onclick="sendCommand({'command' : ['stop']})">STOP</button>
+<button type="button" class="btn btn-sm btn-info" onclick="sendCommand({'command': ['playlist-prev']})">BACK</button>
+<button type="button" class="btn btn-sm btn-info" onclick="sendCommand({'command': ['playlist-next']})">NEXT</button>
+<br>
+<br>
+<p>Path: {{info.path}}
+<p>File Name: {{info.filename}}
+<br>
+<p>Loop
+  {{#if info.loop}}
+  True
+  {{/if}}
+</p>

@@ -28,10 +28,27 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/video">Video</a></li>
         <li><a href="/audio">Audio</a></li>
+        <li><a href="/web">Web</a></li>
+        <li><a href="/playlist">Playlist</a></li>
       </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
     </nav>
+    <h2>{{title}}</h2>
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading w3-light-gray">Playback</div>
+      <div class="panel-body" id="player-info">
+      </div>
+      <div class="loop-toggle">
+      {{#if loop}}
+        <input onchange = "setLoopState(this)" type="checkbox" name="loop-check" checked>
+      {{else}}
+        <input onchange = "setLoopState(this)" type="checkbox" name="loop-check">
+      {{/if}}
+    </div>
+  </div>
     {{{body}}}
+    <script src="/js/vlcQuery.js"></script>
   </body>
 </html>

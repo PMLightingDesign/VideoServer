@@ -32,6 +32,11 @@ a {
 }
 
 .loop-toggle{
-  margin: 15px;
-  padding-right: 15px;
+  margin-top: -15px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+}
+
+.plist-tile {
+  margin: 5px;
 }

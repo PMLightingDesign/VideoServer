@@ -1,35 +1,15 @@
-function playVideo(name){
-  console.log(name + ' will play now');
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/play/' + name, true);
-  xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
-  };
-  xhr.send();
+function playURL(url){
+  let action = {
+    'command' : [
+      'loadfile',
+      url
+    ]
+  }
+  sendCommand(action)
 }
-
-function playAudio(name){
-  console.log(name + ' will play now');
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/playSound/' + name, true);
-  xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
-  };
-  xhr.send();
-}
-
 
 function sendCommand(action){
-  console.log("Action: " + action);
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/vlc/command/' + action, true);
-  xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
-  };
-  xhr.send();
+  apiSock.send(JSON.stringify(action));
 }
 
 function setPresetVideo(name){
@@ -45,13 +25,7 @@ function setPresetVideo(name){
 }
 
 function setLoopState(object){
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/loop/' + object.checked, true);
-  xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
-  };
-  xhr.send();
+  sendCommand({'command': ['set_property', 'loop', object.checked]});
 }
 
 function reloadThumbs(){

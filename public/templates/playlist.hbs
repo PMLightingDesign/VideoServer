@@ -1,0 +1,9 @@
+{{#each plist}}
+{{#if playing}}
+<div class="w3-container w3-green plist-tile">
+{{else}}
+<div class="w3-container w3-light-grey plist-tile">
+{{/if}}
+  {{@key}}: {{filename}}
+</div>
+{{/each}}
