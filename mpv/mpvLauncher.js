@@ -16,15 +16,18 @@ if(os.type() == 'Windows_NT'){
 
 let mpv = new MPV({
     "verbose": false,
-    "debug": false,
+    "debug": true,
     "socket": currentSock,
     "audio_only": false,
     "time_update": 1
 }, [
-  "--idle"
+  "--idle",
+  "--fullscreen"
 ]);
 
-mpv.command("loadfile",["C:/Users/Public/Music/Sample Music/Kalimba.mp3"]);
+//mpv.command("loadfile",["C:/Users/Public/Music/Sample Music/Kalimba.mp3"]);
+
+mpv.loadFile('https://soundcloud.com/testshotstarfish/sets/music-for-space-2', mode="replace");
 
 let report = {};
 function reportInfo(data){
@@ -50,8 +53,3 @@ mpv.on('timeposition', function(info){
     time: info
   });
 });
-
-setTimeout(function(){
-  mpv.freeCommand(JSON.stringify({ "command": ["stop"] }));
-  console.log("Tried Command")
-}, 5000);
