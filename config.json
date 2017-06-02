@@ -1,0 +1,20 @@
+{
+	"mpvFlags": [
+		[
+			"--idle",
+			"--fullscreen"
+		]
+	],
+	"mpvOpts": {
+		"verbose": false,
+		"debug": true,
+		"socket": "/tmp/nodempv.sock",
+		"audio_only": false,
+		"time_update": 1
+	},
+	"video": "/home/saabstory88/VideoServer/video",
+	"audio": "/home/saabstory88/VideoServer/audio",
+	"thumbs": "/home/saabstory88/VideoServer/public/img/thumbs",
+	"sock": "/tmp/nodempv.sock",
+	"presetMovie": "/home/saabstory88/VideoServer/video/5_PPG_people_031516b.mov"
+}

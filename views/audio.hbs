@@ -1,12 +1,13 @@
-
+<div class="container-fluid container-player">
 <div class="panel panel-default">
   <div class="panel-heading w3-light-gray">Audio Files
-    <button type="button" class="btn btn-xs btn-primary pull-right" onclick="playURL('{{globals.audio}}');">Play All</button>
+    <button type="button" class="btn btn-xs btn-success pull-right" onclick="playURL('{{globals.audio}}');">Play All</button>
     <div class="panel-body">
       {{#each data}}
         {{>atile this}}
       {{/each}}
     </div>
   </div>
+</div>
 </div>
 </div>

@@ -21,6 +21,7 @@ let mpvOpts = {
     "audio_only": false,
     "time_update": 1
 };
+
 let mpvFlags = new Array([
   "--idle",
   "--fullscreen"
@@ -33,7 +34,7 @@ let globals = {
   audio: audioPath,
   thumbs: thumbPath,
   sock: currentSock,
-  presetMovie: 'none'
+  presetMovie: '/home/saabstory88/VideoServer/video/ppg_open.mov'
 }
 
 module.exports = globals;

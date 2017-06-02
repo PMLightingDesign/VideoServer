@@ -12,14 +12,16 @@
   </div>
 </div>
 
+<div class="container-fluid container-player">
 <div class="panel panel-default">
   <div class="panel-heading w3-light-gray">Preset Video</div>
   <div class="panel-body">
     <p>This video will be automatically played during video intro presets
       {{#each data}}
         {{#if this.isDefault}}
-          {{>vtile this}}
+          {{>dtile this}}
         {{/if}}
       {{/each}}
   </div>
+</div>
 </div>

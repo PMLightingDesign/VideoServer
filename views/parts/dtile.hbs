@@ -1,4 +1,4 @@
-<div class="col-sm-3 card-wrapper">
+<div class="card-wrapper">
   <div class="w3-card">
     <header class="w3-container w3-light-gray vtile-header">
       <p>{{this.name}} <span class="label label-default pull-right ext-tag">{{this.ext}}</span></p>
@@ -13,7 +13,5 @@
       <button class="btn-trans" id="{{this.fullPath}}" onclick="appendList(this.id);" data-toggle="tooltip" title="Add to Playlist">
         <i class="fa fa-plus-square" style="color: #51A351; font-size: 1.5em;"></i>
       </button>
-      <button name="{{this.name}}{{this.ext}}" type="button" class="btn btn-xs btn-primary pull-right btn-preset" onclick="setPresetVideo(this.name);">Make Preset</button>
-    </footer>
   </div>
 </div>

@@ -7,6 +7,11 @@ a {
   color: #00B7FF;
 }
 
+.container-player {
+  width: 100%;
+  max-width: 600px;
+}
+
 .card-wrapper{
   margin-top: 15px;
   margin-bottom: 15px;
@@ -24,11 +29,21 @@ a {
 }
 
 .btn-preset{
-  margin-top: 8px;
+  margin-top: 0px;
+}
+
+.vtile-footer{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.vtile-header{
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .ext-tag{
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .loop-toggle{
@@ -39,4 +54,17 @@ a {
 
 .plist-tile {
   margin: 5px;
+}
+
+.alist-tile {
+
+}
+
+.atile-card{
+  padding: 10px;
+  margin: 10px;
+}
+
+.fa-minus-sqaure{
+  color: red;
 }

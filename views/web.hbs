@@ -1,12 +1,13 @@
-
+<div class="container-fluid container-player">
 <div class="panel panel-default">
   <div class="panel-heading w3-light-gray">Web Media
     <div class="panel-body">
       <p>Enter a URL
       <input name="urlbox1" id="urlbox" type="text" />
-      <input class="btn btn-sm btn-info"name="buttonExecute" onclick="playURL(document.getElementById('urlbox').value)" type="button" value="Load" />
-      <input class="btn btn-sm btn-success" name="buttonExecute" onclick="sendCommand({'command': ['set_property', 'pause', false]})" type="button" value="Play" />
+      <input class="btn btn-sm btn-info"name="buttonExecute" onclick="playURL(document.getElementById('urlbox').value)" type="button" value="Play" />
+      <input class="btn btn-sm btn-success" name="buttonExecute" onclick="appendList(document.getElementById('urlbox').value)" type="button" value="Add" />
     </div>
   </div>
+</div>
 </div>
 </div>

@@ -20,7 +20,18 @@ const hbs = require('hbs');
 const cp = require('child_process');
 const util = require('util');
 let globals = require('./appModules/globals.js');
+let saveGlobals = require('./appModules/fileOps.js').saveGlobals;
+let loadGlobals = require('./appModules/fileOps.js').loadGlobals;
 const FileList = require('./appModules/fileList.js');
+
+
+let tmpGlobals = loadGlobals(__dirname + '/config.json');
+for(key in tmpGlobals){
+  globals[key] = tmpGlobals[key];
+}
+
+//saveGlobals(globals);
+console.log(globals);
 
 let lastMsg;
 
@@ -73,10 +84,28 @@ app.use('/web', function(req, res, next){
 });
 
 app.use('/playlist', function(req, res, next){
-  res.render('playlist', { title: 'Web Manager'});
+  res.render('playlist', { title: 'Playlist Manager'});
 });
 
-app.use('/api', api);
+app.use('/api/preset/:filename', function(req, res, next){
+  globals.presetMovie = globals.video + '/' + req.params.filename;
+  res.json({
+    okay: globals.presetMovie
+  });
+});
+
+app.use('/api/playPreset', function(req, res, next){
+  let command = {
+    'command' : [
+      'loadfile',
+      globals.presetMovie
+    ]
+  }
+  player.send(JSON.stringify(command));
+  res.json({
+    okay: globals.presetMovie
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -113,7 +142,9 @@ server.listen(8000, function listening() {
 });
 
 process.on('SIGINT', function(){
-  server.close();
-  player.kill();
-  process.exit(0);
+  saveGlobals(globals, function(){
+    server.close();
+    player.kill();
+    process.exit(0);
+  });
 });

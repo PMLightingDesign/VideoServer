@@ -1,12 +1,14 @@
 'use strict';
 //Creates a file list objects
 const getDuration = require('get-video-duration');
+let globals = require('./globals');
 let path = require('path');
 let fs = require('fs');
 
 class FileList {
   constructor(dir){
     console.log("FS: Populating latest files");
+    console.log(globals.presetMovie);
     this.root = dir;
     let fileNames = fs.readdirSync(dir);
     this.files = [];
@@ -14,6 +16,9 @@ class FileList {
       let thisFile = path.parse(fileNames[i]);
       thisFile.dir = dir;
       thisFile.fullPath = path.join(dir + '/' + thisFile.base);
+      if(thisFile.fullPath == globals.presetMovie){
+        thisFile.isDefault = true;
+      }
       if(thisFile.ext != '.m3u'){
         this.files.push(thisFile);
       } else {

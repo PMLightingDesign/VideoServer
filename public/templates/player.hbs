@@ -15,11 +15,21 @@
   </div>
 </div>
 <h6>{{info.prettyTime}}</h6>
-<button type="button" class="btn btn-sm btn-success" onclick="sendCommand({'command': ['set_property', 'pause', false]})">PLAY</button>
-<button type="button" class="btn btn-sm btn-warning" onclick="sendCommand({'command': ['set_property', 'pause', true]})">PAUSE</button>
-<button type="button" class="btn btn-sm btn-danger" onclick="sendCommand({'command' : ['stop']})">STOP</button>
-<button type="button" class="btn btn-sm btn-info" onclick="sendCommand({'command': ['playlist-prev']})">BACK</button>
-<button type="button" class="btn btn-sm btn-info" onclick="sendCommand({'command': ['playlist-next']})">NEXT</button>
+<button type="button" class="btn btn-sm btn-default" onclick="sendCommand({'command': ['set_property', 'pause', false]})">
+  <i class="fa fa-play" style="font-size: 1.5em;"></i>
+</button>
+<button type="button" class="btn btn-sm btn-default" onclick="sendCommand({'command': ['set_property', 'pause', true]})">
+  <i class="fa fa-pause" style="font-size: 1.5em;"></i>
+</button>
+<button type="button" class="btn btn-sm btn-default" onclick="sendCommand({'command' : ['stop']})">
+  <i class="fa fa-stop" style="font-size: 1.5em;"></i>
+</button>
+<button type="button" class="btn btn-sm btn-default" onclick="sendCommand({'command': ['playlist-prev']})">
+  <i class="fa fa-step-backward" style="font-size: 1.5em;"></i>
+</button>
+<button type="button" class="btn btn-sm btn-default" onclick="sendCommand({'command': ['playlist-next']})">
+  <i class="fa fa-step-forward" style="font-size: 1.5em;"></i>
+</button>
 <br>
 <br>
 <p>Path: {{info.path}}
@@ -27,6 +37,6 @@
 <br>
 <p>Loop
   {{#if info.loop}}
-  True
+  <i class="fa fa-circle" style=" color: green;"></i>
   {{/if}}
 </p>

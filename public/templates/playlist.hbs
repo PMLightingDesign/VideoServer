@@ -1,8 +1,14 @@
 {{#each plist}}
 {{#if playing}}
 <div class="w3-container w3-green plist-tile">
+  <button class="btn-trans" id="{{@key}}" onclick="removeList(this.id);">
+  <i class="fa fa-minus-square" style="color: #F89406; font-size: 1.5em;"></i>
+  </button>
 {{else}}
 <div class="w3-container w3-light-grey plist-tile">
+  <button class="btn-trans" id="{{@key}}" onclick="removeList(this.id);">
+  <i class="fa fa-minus-square" style="color: #d9534f; font-size: 1.5em;"></i>
+  </button>
 {{/if}}
   {{@key}}: {{filename}}
 </div>
